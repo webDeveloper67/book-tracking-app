@@ -10,7 +10,7 @@ import BookShelf from './components/BookShelf';
 const BooksApp = () => {
   const dispatch = useDispatch();
 
-  const bookList = useSelector(state => state.bookShelf.books)
+  const bookList = useSelector(state => state.bookShelf)
 
   const {books, error, loading} = bookList;
 
