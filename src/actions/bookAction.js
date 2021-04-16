@@ -41,8 +41,20 @@ export const listBooks = () => async (dispatch, getState) => {
 }
 
 export const updateBookShelf = (book, shelf) => async (dispatch, getState) => {
-  // console.log(getState().bookShelf.books, 'getState');
-    try {
+  //console.log(getState().bookShelf, 'getState');
+  let updateIndex = getState().bookShelf.books.books.findIndex((b) => b.id === book.id);
+  // let updatedBookList = getState().bookShelf.books;
+
+  // if(updateIndex === -1) {
+  //   book.shelf = shelf;
+  //   updatedBookList.push(book)
+  // } else {
+  //   updatedBookList[updateIndex].shelf = shelf;
+  // }
+  try {
+  console.log(shelf, '🔸')
+  console.log(book, '🔸')
+
       dispatch({type: UPDATE_SHELF_REQUEST})
 
       const config = {
@@ -51,11 +63,11 @@ export const updateBookShelf = (book, shelf) => async (dispatch, getState) => {
           ...headers,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify( {shelf} )
+        body: JSON.stringify({ shelf })
       }
 
-      const {data} = await axios.get(`${api}/books/${book.id}`, config )
-
+      const {data} = await axios.put(`${api}/books/${book.id}`, {shelf}, config)
+      console.log(data)
       dispatch({
         type: UPDATE_SHELF_SUCCESS,
         payload: data

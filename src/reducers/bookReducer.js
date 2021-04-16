@@ -7,24 +7,14 @@ export const bookReducer = (state = {books: []}, action) => {
     case BOOK_LIST_SUCCESS:
       console.log(state.books);
 
-      return {loading: false, books: action.payload.books}
+      return {loading: false, books: action.payload}
     case BOOK_LIST_FAIL:
       return {loading: false, error: action.payload}
     case UPDATE_SHELF_REQUEST:
       return {loading: true}
-    case UPDATE_SHELF_SUCCESS: 
-      const book = action.payload;
+    // case UPDATE_SHELF_SUCCESS: 
 
-      const updateIndex = state.books.findIndex((b) => b.id === book.id);
-      const updatedBookList = state.books;
-  
-      // if(updateIndex === -1) {
-      //   book.shelf = shelf;
-      //   updatedBookList.push(book)
-      // } else {
-      //   updatedBookList[updateIndex].shelf = shelf;
-      // }
-      return {...state}
+    //   return {...state}
     default: 
       return state;
   }
