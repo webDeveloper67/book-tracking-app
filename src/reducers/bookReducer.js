@@ -5,16 +5,19 @@ export const bookReducer = (state = {books: []}, action) => {
     case BOOK_LIST_REQUEST:
       return {loading: true, books: []};
     case BOOK_LIST_SUCCESS:
-      console.log(state.books);
-
       return {loading: false, books: action.payload}
     case BOOK_LIST_FAIL:
       return {loading: false, error: action.payload}
     case UPDATE_SHELF_REQUEST:
       return {loading: true}
-    // case UPDATE_SHELF_SUCCESS: 
+    case UPDATE_SHELF_SUCCESS: 
+      const { id, shelf } = action.payload;
 
-    //   return {...state}
+      const newBooks = state.books.map((b) => ({
+        ...b,
+        shelf: b.id === id ? shelf : b.shelf,
+      }));
+      return {...state, books: newBooks, loading: false};
     default: 
       return state;
   }

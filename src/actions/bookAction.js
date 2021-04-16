@@ -41,36 +41,37 @@ export const listBooks = () => async (dispatch, getState) => {
 }
 
 export const updateBookShelf = (book, shelf) => async (dispatch, getState) => {
-  //console.log(getState().bookShelf, 'getState');
-  let updateIndex = getState().bookShelf.books.books.findIndex((b) => b.id === book.id);
-  // let updatedBookList = getState().bookShelf.books;
-
-  // if(updateIndex === -1) {
-  //   book.shelf = shelf;
-  //   updatedBookList.push(book)
-  // } else {
-  //   updatedBookList[updateIndex].shelf = shelf;
-  // }
   try {
-  console.log(shelf, '🔸')
-  console.log(book, '🔸')
-
+    console.log(book.shelf, 'book in the beginning of action');
+    // console.log(getState().bookShelf, 'getState');
+    let updateIndex = getState().bookShelf.books.books.findIndex((b) => b.id === book.id);
+    let updatedBookList = getState().bookShelf.books.books;
+  
+    console.log(book.shelf = shelf);
+    if(updateIndex === -1) {
+      book.shelf = shelf;
+      updatedBookList.push(book)
+    } else {
+      updatedBookList[updateIndex].shelf = shelf;
+    }
+    console.log(shelf, 'shelf');
+    console.log(book, 'book');
       dispatch({type: UPDATE_SHELF_REQUEST})
 
       const config = {
-        method: 'PUT',
         headers: {
           ...headers,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ shelf })
+        body: JSON.stringify({shelf})
       }
 
-      const {data} = await axios.put(`${api}/books/${book.id}`, {shelf}, config)
-      console.log(data)
+      const data = await axios.put(`${api}/books/${book.id}`, {shelf}, config)
+
+      console.log(data, 'data in update');
       dispatch({
         type: UPDATE_SHELF_SUCCESS,
-        payload: data
+        payload: { id: book.id, shelf }
       })
     } catch (error) {
       console.error(error.message, 'Error in updating shelf')
