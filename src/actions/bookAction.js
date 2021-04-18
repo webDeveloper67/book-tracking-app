@@ -1,6 +1,6 @@
 import {BOOK_LIST_REQUEST,
   BOOK_LIST_SUCCESS,
-  BOOK_LIST_FAIL, UPDATE_SHELF_REQUEST, UPDATE_SHELF_SUCCESS, UPDATE_SHELF_FAIL} from '../constants/bookConstants';
+  BOOK_LIST_FAIL, UPDATE_SHELF_REQUEST, UPDATE_SHELF_SUCCESS, UPDATE_SHELF_FAIL, SEARCH_BOOK_SHELF_FAIL, SEARCH_BOOK_SHELF_REQUEST, SEARCH_BOOK_SHELF_SUCCESS} from '../constants/bookConstants';
 import axios from 'axios';
 
 const api = "https://reactnd-books-api.udacity.com";
@@ -54,8 +54,8 @@ export const updateBookShelf = (book, shelf) => async (dispatch) => {
         body: JSON.stringify({shelf})
       }
 
-      const {data} = await axios.put(`${api}/books/${book.id}`, {shelf}, config)
-      console.log(data, 'data');
+      await axios.put(`${api}/books/${book.id}`, {shelf}, config)
+      
       dispatch({
         type: UPDATE_SHELF_SUCCESS,
         payload: { id: book.id, shelf }
@@ -74,5 +74,36 @@ export const updateBookShelf = (book, shelf) => async (dispatch) => {
 
 
  
+export const searchBookShelf = (query) => async dispatch => {
+  try {
+    dispatch({type: SEARCH_BOOK_SHELF_REQUEST})
 
+    const config = {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ query })
+    }
+
+    const {data} = await axios.post(`${api}/search`, {query}, config)
+
+    const {books} = data;
+
+    dispatch({
+      type: SEARCH_BOOK_SHELF_SUCCESS,
+      payload: books
+    })
+  } catch (error) {
+    console.error(error.message, 'Error in searching shelf')
+    dispatch({
+      type: SEARCH_BOOK_SHELF_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
 

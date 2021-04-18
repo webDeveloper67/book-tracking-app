@@ -20,7 +20,9 @@ const BooksApp = () => {
 
   return (
     <div className='app'>
-      <Route path='/search' component={SearchBook} />
+      <Route path='/search' render={() => (
+        <SearchBook />
+      )} />
       <Route exact path='/' render={() => (
         <div className='list-books'>
           <Header />
