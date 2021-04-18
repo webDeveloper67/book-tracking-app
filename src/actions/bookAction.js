@@ -60,6 +60,9 @@ export const updateBookShelf = (book, shelf) => async (dispatch) => {
         type: UPDATE_SHELF_SUCCESS,
         payload: { id: book.id, shelf }
       })
+
+      dispatch(listBooks())
+
     } catch (error) {
       console.error(error.message, 'Error in updating shelf')
       dispatch({

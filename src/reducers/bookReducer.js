@@ -3,7 +3,7 @@ import { BOOK_LIST_FAIL, BOOK_LIST_REQUEST, BOOK_LIST_SUCCESS, SEARCH_BOOK_SHELF
 export const bookReducer = (state = {books: [], searchedBooks: []}, action) => {
   switch(action.type) {
     case BOOK_LIST_REQUEST:
-      return {loading: true, books: []};
+      return {...state, loading: true, books: []};
     case BOOK_LIST_SUCCESS:
       return {loading: false, books: action.payload }
     case BOOK_LIST_FAIL:

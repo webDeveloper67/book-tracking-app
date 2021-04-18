@@ -38,6 +38,5 @@ const SearchBook = () => {
           </div>
   )
 }
-// onClick={() => this.setState({ showSearchPage: false })}
 
 export default SearchBook;
